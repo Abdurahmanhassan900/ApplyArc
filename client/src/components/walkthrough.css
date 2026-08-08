@@ -1,0 +1,337 @@
+/* ============================================================
+   WALKTHROUGH / ONBOARDING TOUR
+   ============================================================ */
+
+.walkthrough-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.walkthrough-overlay > * {
+  pointer-events: auto;
+}
+
+/* ---- Backdrop ---- */
+.walkthrough-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  animation: wt-fade-in 200ms ease both;
+}
+
+/* ---- Spotlight (cutout) ---- */
+.walkthrough-spotlight {
+  position: absolute;
+  border-radius: 12px;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.55);
+  transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* ---- Highlight ring ---- */
+.walkthrough-highlight-ring {
+  position: fixed;
+  border-radius: 12px;
+  border: 2px solid rgba(0, 169, 157, 0.7);
+  box-shadow:
+    0 0 0 4px rgba(0, 169, 157, 0.15),
+    0 0 20px rgba(0, 169, 157, 0.2);
+  transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+  animation: wt-ring-pulse 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ---- Tooltip ---- */
+.walkthrough-tooltip {
+  position: fixed;
+  z-index: 10000;
+  padding: 20px;
+  background: #1a2332;
+  border: 1px solid rgba(0, 169, 157, 0.25);
+  border-radius: 16px;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  color: #eef8fb;
+  animation: wt-tooltip-enter 250ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  transition: top 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+    left 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Arrow indicators */
+.walkthrough-tooltip::before {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #1a2332;
+  border: 1px solid rgba(0, 169, 157, 0.25);
+  transform: rotate(45deg);
+}
+
+.walkthrough-arrow-top::before {
+  top: -7px;
+  left: 50%;
+  margin-left: -6px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.walkthrough-arrow-bottom::before {
+  bottom: -7px;
+  left: 50%;
+  margin-left: -6px;
+  border-left: none;
+  border-top: none;
+}
+
+.walkthrough-arrow-left::before {
+  left: -7px;
+  top: 50%;
+  margin-top: -6px;
+  border-right: none;
+  border-top: none;
+}
+
+.walkthrough-arrow-right::before {
+  right: -7px;
+  top: 50%;
+  margin-top: -6px;
+  border-left: none;
+  border-bottom: none;
+}
+
+/* ---- Close button ---- */
+.walkthrough-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: rgba(238, 248, 251, 0.6);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.walkthrough-close:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #eef8fb;
+}
+
+/* ---- Progress bar ---- */
+.walkthrough-progress {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+
+.walkthrough-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00a99d, #20c7bb);
+  border-radius: 3px;
+  transition: width 0.35s ease;
+}
+
+/* ---- Step counter ---- */
+.walkthrough-step-counter {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(0, 169, 157, 0.8);
+  margin-bottom: 10px;
+}
+
+/* ---- Content ---- */
+.walkthrough-content {
+  margin-bottom: 18px;
+}
+
+.walkthrough-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(0, 169, 157, 0.12);
+  border: 1px solid rgba(0, 169, 157, 0.25);
+  border-radius: 10px;
+  color: #20c7bb;
+  margin-bottom: 12px;
+}
+
+.walkthrough-title {
+  font-family: var(--font-display, "Space Grotesk", sans-serif);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+  color: #eef8fb;
+}
+
+.walkthrough-description {
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(238, 248, 251, 0.7);
+  margin: 0;
+}
+
+/* ---- Navigation ---- */
+.walkthrough-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.walkthrough-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease, opacity 0.15s ease;
+}
+
+.walkthrough-nav-btn:active {
+  transform: scale(0.96);
+}
+
+.walkthrough-nav-prev {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(238, 248, 251, 0.7);
+}
+
+.walkthrough-nav-prev:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  color: #eef8fb;
+}
+
+.walkthrough-nav-prev:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.walkthrough-nav-next {
+  background: linear-gradient(135deg, #00a99d, #0cb8ac);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(0, 169, 157, 0.25);
+}
+
+.walkthrough-nav-next:hover {
+  box-shadow: 0 6px 20px rgba(0, 169, 157, 0.35);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   WALKTHROUGH TRIGGER BUTTON (in tracker page)
+   ============================================================ */
+
+.walkthrough-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  background: rgba(0, 169, 157, 0.08);
+  border: 1px solid rgba(0, 169, 157, 0.2);
+  border-radius: 9px;
+  color: var(--accent, #00a99d);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.walkthrough-trigger:hover {
+  background: rgba(0, 169, 157, 0.14);
+  border-color: rgba(0, 169, 157, 0.35);
+  transform: translateY(-1px);
+}
+
+.walkthrough-trigger:active {
+  transform: scale(0.97);
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+@keyframes wt-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes wt-tooltip-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes wt-ring-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 4px rgba(0, 169, 157, 0.15),
+      0 0 20px rgba(0, 169, 157, 0.2);
+  }
+  50% {
+    box-shadow:
+      0 0 0 6px rgba(0, 169, 157, 0.08),
+      0 0 30px rgba(0, 169, 157, 0.15);
+  }
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 680px) {
+  .walkthrough-tooltip {
+    width: calc(100vw - 24px) !important;
+    left: 12px !important;
+    max-width: none;
+  }
+
+  .walkthrough-tooltip::before {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .walkthrough-highlight-ring,
+  .walkthrough-tooltip,
+  .walkthrough-backdrop {
+    animation: none !important;
+  }
+
+  .walkthrough-spotlight,
+  .walkthrough-highlight-ring,
+  .walkthrough-tooltip {
+    transition: none !important;
+  }
+}

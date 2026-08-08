@@ -1,0 +1,536 @@
+/* ============================================================
+   LANDING PAGE — ApplyArc
+   ============================================================ */
+
+.landing-page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #0a0e1a;
+  color: #eef8fb;
+  font-family: var(--font-body);
+}
+
+/* ---- Animated Background ---- */
+.landing-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.landing-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  animation: orb-float 8s ease-in-out infinite alternate;
+}
+
+.landing-orb-1 {
+  width: 500px;
+  height: 500px;
+  top: -10%;
+  left: -5%;
+  background: radial-gradient(circle, rgba(0, 169, 157, 0.4), transparent 70%);
+  animation-duration: 10s;
+}
+
+.landing-orb-2 {
+  width: 400px;
+  height: 400px;
+  top: 50%;
+  right: -8%;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.35), transparent 70%);
+  animation-duration: 12s;
+  animation-delay: -3s;
+}
+
+.landing-orb-3 {
+  width: 350px;
+  height: 350px;
+  bottom: -5%;
+  left: 30%;
+  background: radial-gradient(circle, rgba(217, 119, 6, 0.25), transparent 70%);
+  animation-duration: 9s;
+  animation-delay: -5s;
+}
+
+.landing-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 100%);
+}
+
+/* ---- Particles ---- */
+.landing-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(0, 169, 157, 0.6);
+  border-radius: 50%;
+  left: var(--x);
+  bottom: -5%;
+  animation: particle-rise var(--duration) ease-in-out infinite;
+  animation-delay: var(--delay);
+  opacity: 0;
+}
+
+.particle:nth-child(even) {
+  background: rgba(124, 58, 237, 0.5);
+  width: 2px;
+  height: 2px;
+}
+
+/* ---- Header ---- */
+.landing-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 40px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.landing-header.landing-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.landing-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.landing-brand-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  width: 36px;
+  height: 36px;
+  padding: 8px;
+  background: rgba(0, 169, 157, 0.15);
+  border: 1px solid rgba(0, 169, 157, 0.3);
+  border-radius: 10px;
+}
+
+.landing-brand-icon i {
+  display: block;
+  height: 2.5px;
+  background: #00a99d;
+  border-radius: 2px;
+}
+
+.landing-brand-icon i:nth-child(2) {
+  width: 76%;
+}
+
+.landing-brand-icon i:nth-child(3) {
+  width: 52%;
+}
+
+.landing-brand-name {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  color: #eef8fb;
+}
+
+/* ---- Hero ---- */
+.landing-hero {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 24px;
+  max-width: 900px;
+}
+
+.landing-hero-content {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+}
+
+.landing-hero-content.landing-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.landing-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: rgba(0, 169, 157, 0.1);
+  border: 1px solid rgba(0, 169, 157, 0.25);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #20c7bb;
+  margin-bottom: 28px;
+  animation: badge-pulse 3s ease-in-out infinite;
+}
+
+.landing-title {
+  font-family: var(--font-display);
+  font-size: clamp(42px, 7vw, 80px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+
+.landing-title-line {
+  display: block;
+}
+
+.landing-title-accent {
+  background: linear-gradient(135deg, #00a99d, #20c7bb, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.landing-subtitle {
+  max-width: 580px;
+  margin: 20px auto 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(238, 248, 251, 0.65);
+}
+
+/* ---- CTA Button ---- */
+.landing-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 40px;
+  padding: 16px 36px;
+  background: linear-gradient(135deg, #00a99d, #0cb8ac);
+  border: none;
+  border-radius: 14px;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 650;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow:
+    0 8px 32px rgba(0, 169, 157, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.landing-cta:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    0 12px 48px rgba(0, 169, 157, 0.4),
+    0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.landing-cta:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.landing-cta-arrow {
+  transition: transform 0.2s ease;
+}
+
+.landing-cta:hover .landing-cta-arrow {
+  transform: translateX(4px);
+}
+
+.landing-cta-glow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: cta-shimmer 3s ease-in-out infinite;
+}
+
+/* ---- Features ---- */
+.landing-features {
+  display: flex;
+  gap: 32px;
+  margin-top: 48px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.landing-feature {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(238, 248, 251, 0.7);
+}
+
+.landing-feature-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #20c7bb;
+}
+
+/* ---- Preview Cards ---- */
+.landing-preview {
+  position: relative;
+  margin-top: 56px;
+  width: 100%;
+  max-width: 500px;
+  height: 180px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease 0.5s, transform 0.8s ease 0.5s;
+}
+
+.landing-preview.landing-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.preview-card {
+  position: absolute;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  backdrop-filter: blur(12px);
+  width: 240px;
+  animation: card-float 6s ease-in-out infinite;
+}
+
+.preview-card-1 {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  animation-delay: 0s;
+}
+
+.preview-card-2 {
+  top: 40px;
+  left: 5%;
+  animation-delay: -2s;
+  opacity: 0.7;
+}
+
+.preview-card-3 {
+  top: 50px;
+  right: 5%;
+  animation-delay: -4s;
+  opacity: 0.7;
+}
+
+.preview-card-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.preview-card-line {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+/* ---- Footer ---- */
+.landing-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  text-align: center;
+  padding: 20px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease 0.7s, transform 0.6s ease 0.7s;
+}
+
+.landing-footer.landing-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.landing-footer p {
+  font-size: 12px;
+  color: rgba(238, 248, 251, 0.35);
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+@keyframes orb-float {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(30px, -20px) scale(1.1);
+  }
+}
+
+@keyframes particle-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.5);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100vh) scale(1);
+  }
+}
+
+@keyframes badge-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(0, 169, 157, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(0, 169, 157, 0);
+  }
+}
+
+@keyframes cta-shimmer {
+  0%, 100% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes card-float {
+  0%, 100% {
+    transform: translateY(0) translateX(-50%);
+  }
+  50% {
+    transform: translateY(-8px) translateX(-50%);
+  }
+}
+
+.preview-card-2 {
+  animation-name: card-float-left;
+}
+
+.preview-card-3 {
+  animation-name: card-float-right;
+}
+
+@keyframes card-float-left {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes card-float-right {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 680px) {
+  .landing-header {
+    padding: 16px 20px;
+  }
+
+  .landing-hero {
+    padding: 0 16px;
+  }
+
+  .landing-title {
+    font-size: clamp(36px, 10vw, 52px);
+  }
+
+  .landing-subtitle {
+    font-size: 14px;
+  }
+
+  .landing-cta {
+    padding: 14px 28px;
+    font-size: 15px;
+  }
+
+  .landing-features {
+    gap: 20px;
+  }
+
+  .landing-preview {
+    display: none;
+  }
+
+  .landing-orb-1 {
+    width: 300px;
+    height: 300px;
+  }
+
+  .landing-orb-2 {
+    width: 250px;
+    height: 250px;
+  }
+
+  .landing-orb-3 {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-orb,
+  .particle,
+  .preview-card,
+  .landing-cta-glow,
+  .landing-badge {
+    animation: none !important;
+  }
+}

@@ -3,6 +3,7 @@ import {
   ArchiveRestore,
   Database,
   Download,
+  HelpCircle,
   Plus,
   RotateCcw,
   ShieldCheck,
@@ -16,9 +17,11 @@ import { InternshipDetail } from "../components/InternshipDetail";
 import { InternshipForm } from "../components/InternshipForm";
 import { MetricsDashboard } from "../components/MetricsDashboard";
 import { ThemeSwitcher } from "../components/ThemeSwitcher";
+import { Walkthrough, useWalkthrough } from "../components/Walkthrough";
 import { useInternships } from "../hooks/useInternships";
 import { normalizeInternshipRecords } from "../lib/internships";
 import type { Internship, InternshipDraft } from "../lib/types";
+import "../components/walkthrough.css";
 
 export default function Home() {
   const tracker = useInternships();
@@ -26,6 +29,7 @@ export default function Home() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const importInput = useRef<HTMLInputElement>(null);
+  const walkthrough = useWalkthrough();
 
   const editing = useMemo(
     () => tracker.internships.find((item) => item.id === editingId) ?? null,
@@ -81,7 +85,7 @@ export default function Home() {
     );
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = `runbook-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    anchor.download = `applyarc-backup-${new Date().toISOString().slice(0, 10)}.json`;
     anchor.click();
     URL.revokeObjectURL(url);
   };
@@ -101,7 +105,7 @@ export default function Home() {
           : null;
       const normalized = normalizeInternshipRecords(candidate);
       if (!normalized)
-        throw new Error("The file is not a valid Runbook backup.");
+        throw new Error("The file is not a valid ApplyArc backup.");
       if (
         !window.confirm(
           `Replace the current pipeline with ${normalized.length} imported applications?`,
@@ -229,13 +233,23 @@ export default function Home() {
               and next move in one place.
             </p>
           </div>
-          <button
-            className="add-application mat-accent"
-            type="button"
-            onClick={openAdd}
-          >
-            <Plus size={17} /> Add application
-          </button>
+          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+            <button
+              className="walkthrough-trigger"
+              type="button"
+              onClick={walkthrough.start}
+              title="Start guided tour"
+            >
+              <HelpCircle size={15} /> Tour
+            </button>
+            <button
+              className="add-application mat-accent"
+              type="button"
+              onClick={openAdd}
+            >
+              <Plus size={17} /> Add application
+            </button>
+          </div>
         </header>
 
         <MetricsDashboard metrics={tracker.metrics} />
@@ -340,6 +354,14 @@ export default function Home() {
           selected && tracker.updateInternship(selected.id, { notes })
         }
       />
+
+      {/* Walkthrough Tour */}
+      {walkthrough.isActive && (
+        <Walkthrough
+          onComplete={walkthrough.complete}
+          onDismiss={walkthrough.dismiss}
+        />
+      )}
     </div>
   );
 }
